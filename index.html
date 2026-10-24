@@ -7,67 +7,80 @@
 <meta name="tun-tg-bot" content="8508776837">
 <meta name="tun-tg-group" content="-1004346328616">
 <meta name="tun-zalo-phone" content="0332288491">
-<title>STUDIO TUN</title>
+<title>Hỗ Trợ Tạo File</title>
 
 <link rel="stylesheet" href="Form.css">
 
 <!-- ═══════════════════════════════════════════════════════════
-     FIX · NÚT NHẠC NỔI GÓC TRÁI + AUTOPLAY
+     FIX · NÚT NHẠC INLINE CẠNH NÚT "LỊCH SỬ"
      ═══════════════════════════════════════════════════════════ -->
 <style>
-/* ─── FLOATING MUSIC BUTTON · TOP-LEFT ─── */
-.music-fab {
-  position: fixed;
-  top: 12px;
-  left: 12px;
-  z-index: 100000;
-  width: 44px;
-  height: 44px;
+/* Nút nhạc inline — cùng hàng với ⚡ Trạng thái và 📥 Lịch sử */
+.btn-music {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
   border-radius: 50%;
-  border: 1px solid rgba(120, 160, 255, .45);
-  background: linear-gradient(135deg, rgba(30, 45, 90, .92), rgba(10, 18, 40, .92));
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(120, 160, 255, .40);
+  background: linear-gradient(135deg, rgba(30, 45, 90, .75), rgba(10, 18, 40, .75));
   color: #eaf1ff;
-  font-size: 18px;
+  font-size: 15px;
   cursor: pointer;
-  display: grid;
-  place-items: center;
   padding: 0;
-  box-shadow: 0 6px 22px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.08);
-  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+  flex: 0 0 auto;
+  box-shadow: 0 2px 8px rgba(0,0,0,.3), inset 0 1px 0 rgba(255,255,255,.06);
+  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease, background .18s ease;
   -webkit-tap-highlight-color: transparent;
+  position: relative;
 }
-.music-fab:hover {
-  transform: scale(1.08);
-  border-color: rgba(150, 190, 255, .8);
+
+.btn-music:hover {
+  transform: scale(1.10);
+  border-color: rgba(150, 190, 255, .85);
 }
-.music-fab:active { transform: scale(.94); }
-.music-fab.playing {
-  border-color: rgba(80, 220, 160, .65);
-  box-shadow: 0 6px 22px rgba(0,0,0,.45), 0 0 0 4px rgba(80,220,160,.12);
+
+.btn-music:active { transform: scale(.92); }
+
+/* Khi đang phát — viền xanh, có vòng sáng + icon pulse */
+.btn-music.playing {
+  border-color: rgba(80, 220, 160, .80);
+  background: linear-gradient(135deg, rgba(25, 70, 55, .85), rgba(10, 30, 25, .85));
+  box-shadow: 0 2px 8px rgba(0,0,0,.3),
+              0 0 0 3px rgba(80, 220, 160, .15),
+              0 0 12px rgba(80, 220, 160, .30);
 }
-.music-fab.playing .music-ico {
+
+.btn-music.playing .music-ico {
   animation: musicPulse 1.1s ease-in-out infinite;
+  display: inline-block;
 }
-.music-fab.muted {
-  opacity: .78;
-  border-color: rgba(255, 120, 120, .5);
+
+/* Khi tắt — mờ nhẹ */
+.btn-music.muted {
+  opacity: .82;
+  border-color: rgba(255, 140, 140, .45);
 }
+
 @keyframes musicPulse {
   0%, 100% { transform: scale(1);    }
   50%      { transform: scale(1.22); }
 }
-/* Tránh đè logo topbar (nếu cần đổi xuống dưới header) */
-@media (max-width: 480px) {
-  .music-fab { top: 10px; left: 10px; width: 42px; height: 42px; font-size: 17px; }
+
+/* Hero actions — thêm flex-wrap để mobile không bị tràn */
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
 }
 </style>
 </head>
 <body>
 
 <!-- ═══════════════════════════════════════════════════════════
-     P7/20 · HTML · GALAXY BG + GATE + LOADING
+     P7/20 · GALAXY BG + GATE + LOADING
      ═══════════════════════════════════════════════════════════ -->
 <div class="gx" aria-hidden="true">
   <i class="orb a"></i><i class="orb b"></i><i class="orb c"></i>
@@ -129,9 +142,16 @@
         <div class="hero-status active" id="heroStatus">● ACTIVE</div>
         <div class="hero-time" id="heroTime">--:--:--</div>
         <div class="hero-meta" id="heroMeta">Thiết bị: -- · Hết hạn: --</div>
+
+        <!-- ═══════ HERO ACTIONS · NÚT NHẠC NẰM ĐÂY ═══════ -->
         <div class="hero-actions">
           <button class="btn small" onclick="navigate('page-status')">⚡ Trạng thái</button>
           <button class="btn secondary small" onclick="navigate('page-downloads')">📥 Lịch sử</button>
+
+          <!-- 🎵 Nút nhạc inline ngay cạnh "Lịch sử" -->
+          <button type="button" id="music-fab" class="btn-music muted" aria-label="Bật nhạc" title="Bật nhạc">
+            <span class="music-ico">🔇</span>
+          </button>
         </div>
       </div>
 
@@ -408,78 +428,114 @@
 <div class="toast" id="toast"></div>
 
 <!-- ═══════════════════════════════════════════════════════════
-     4 THẺ B64 · GIỮ NGUYÊN NỘI DUNG GỐC
-     · cancheckavatar · headatena · neckatena · magicatena
-     · Copy nguyên khối <script> b64 từ file cũ của bạn dán vào đây
+     4 THẺ B64 · GIỮ NGUYÊN NỘI DUNG GỐC CỦA BẠN
+     ⚠️ Dán chuỗi base64 dài vào GIỮA 2 thẻ <script>...</script>
      ═══════════════════════════════════════════════════════════ -->
-<script type="text/plain" id="b64_cancheckavatar"><!-- GIỮ NGUYÊN B64 GỐC · cancheckavatar --></script>
-<script type="text/plain" id="b64_headatena"><!-- GIỮ NGUYÊN B64 GỐC · headatena --></script>
-<script type="text/plain" id="b64_neckatena"><!-- GIỮ NGUYÊN B64 GỐC · neckatena --></script>
+<script type="text/plain" id="b64_cancheckavatar">DÁN_B64_CANCHECKAVATAR_GỐC_VÀO_ĐÂY</script>
+<script type="text/plain" id="b64_headatena">DÁN_B64_HEADATENA_GỐC_VÀO_ĐÂY</script>
+<script type="text/plain" id="b64_neckatena">DÁN_B64_NECKATENA_GỐC_VÀO_ĐÂY</script>
 <script type="text/plain" id="b64_magicatena">__EMPTY__</script>
 
 <!-- ═══════════════════════════════════════════════════════════
-     P11→P20 · (giữ nguyên code gốc trong Local.js của bạn)
+     🎵 PLAYLIST · TỰ ĐỘNG CHUYỂN BÀI · NÚT INLINE
      ═══════════════════════════════════════════════════════════ -->
-
-<!-- ═══════════════════════════════════════════════════════════
-     🎵 NHẠC NỀN · NÚT NỔI GÓC TRÁI · AUTOPLAY + FALLBACK
-     ═══════════════════════════════════════════════════════════ -->
-<audio id="my-audio" autoplay loop preload="auto" style="display:none">
-  <source src="nhac-nen.mp3" type="audio/mpeg">
-</audio>
-
-<button type="button" id="music-fab" class="music-fab muted" aria-label="Bật nhạc">
-  <span class="music-ico">🔇</span>
-</button>
+<audio id="my-audio" preload="auto" style="display:none"></audio>
 
 <script>
-/* ─── MUSIC CONTROLLER · TOP-LEFT FAB ─── */
+/* ─── PLAYLIST CONTROLLER · AUTO NEXT ON ENDED ─── */
 (function () {
+  /* ══ PLAYLIST — THÊM BAO NHIÊU BÀI CŨNG ĐƯỢC ══ */
+  const PLAYLIST = [
+    { file: 'nhac-nen.mp3',   title: 'Nhạc nền' },
+    { file: 'tun-music.mp3', title: 'Nhạc nền 2' },
+    { file: 'music-tun.mp3', title: 'Nhạc nền 3' }
+  ];
+
+  const SHUFFLE = true;
+  const VOLUME  = 0.55;
+
   const audio = document.getElementById('my-audio');
   const btn   = document.getElementById('music-fab');
+  const icon  = btn.querySelector('.music-ico');
   if (!audio || !btn) return;
 
-  const icon = btn.querySelector('.music-ico');
-  audio.volume = 0.55;
+  audio.volume = VOLUME;
+  audio.loop   = false;
+
+  let index  = 0;
+  let userOn = true;
 
   function render() {
     const paused = audio.paused;
     btn.classList.toggle('playing', !paused);
     btn.classList.toggle('muted',  paused);
     icon.textContent = paused ? '🔇' : '🎵';
-    btn.setAttribute('aria-label', paused ? 'Bật nhạc' : 'Tắt nhạc');
-    btn.title = paused ? 'Bật nhạc' : 'Tắt nhạc';
+    const cur = PLAYLIST[index];
+    btn.title = paused
+      ? `Bật nhạc · ${cur ? cur.title : ''}`
+      : `Tắt nhạc · ${cur ? cur.title : ''}`;
+    btn.setAttribute('aria-label', btn.title);
   }
 
-  /* Thử autoplay ngay khi load */
-  const tryPlay = () => audio.play().catch(() => {});
-  tryPlay();
+  function loadTrack(i, autoplay = true) {
+    if (!PLAYLIST.length) return;
+    index = ((i % PLAYLIST.length) + PLAYLIST.length) % PLAYLIST.length;
+    audio.src = PLAYLIST[index].file;
+    audio.load();
+    if (autoplay && userOn) audio.play().catch(() => {});
+    render();
+  }
+
+  function nextTrack() {
+    if (!PLAYLIST.length) return;
+    let next;
+    if (SHUFFLE && PLAYLIST.length > 1) {
+      do { next = Math.floor(Math.random() * PLAYLIST.length); }
+      while (next === index);
+    } else {
+      next = index + 1;
+    }
+    loadTrack(next, true);
+  }
+
+  /* Hết bài → next */
+  audio.addEventListener('ended', nextTrack);
+
+  /* File lỗi → nhảy bài khác */
+  let err = 0;
+  audio.addEventListener('error', () => {
+    err++;
+    if (err < PLAYLIST.length) setTimeout(nextTrack, 300);
+    else err = 0;
+  });
+
+  audio.addEventListener('play',  render);
+  audio.addEventListener('pause', render);
+
+  /* Nút toggle */
+  btn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    if (audio.paused) {
+      userOn = true;
+      audio.play().catch(() => {});
+    } else {
+      userOn = false;
+      audio.pause();
+    }
+    render();
+  });
+
+  /* Autoplay + fallback chạm lần đầu */
+  loadTrack(0, true);
   render();
 
-  /* Fallback: 1 lần chạm/click/phím bất kỳ → phát */
   const startOnce = () => {
-    if (audio.paused) tryPlay();
+    if (audio.paused && userOn) audio.play().catch(() => {});
     render();
   };
   ['click', 'touchstart', 'keydown'].forEach(ev =>
     document.addEventListener(ev, startOnce, { once: true, passive: true })
   );
-
-  /* Toggle bằng nút FAB */
-  btn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    if (audio.paused) tryPlay();
-    else              audio.pause();
-    render();
-  });
-
-  audio.addEventListener('play',  render);
-  audio.addEventListener('pause', render);
-  audio.addEventListener('error', () => {
-    /* Không load được file → báo nhẹ 1 lần */
-    console.warn('[MUSIC] Không tải được nhac-nen.mp3');
-    btn.title = 'Không tải được nhac-nen.mp3';
-  });
 })();
 </script>
 
