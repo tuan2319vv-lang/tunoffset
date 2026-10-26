@@ -9,46 +9,36 @@
 
 <canvas id="web-canvas"></canvas>
 <div class="bg-glow" aria-hidden="true">
-  <div class="bg-glow-1"></div>
-  <div class="bg-glow-2"></div>
-  <div class="bg-glow-3"></div>
+  <div class="bg-glow-1"></div><div class="bg-glow-2"></div><div class="bg-glow-3"></div>
 </div>
 
 <header id="hd"><div class="bar">
 <button class="ib" onclick="dr(1)" id="mb"></button>
 <div class="logo" onclick="go('home')" id="lg"></div>
 <button class="ib g" onclick="goSearch()" id="sb"></button>
-<button class="upill" id="uBtn" onclick="um()">
-  <img src="duong-dan-anh.jpg" alt="Ảnh" onerror="this.style.display='none';this.parentNode.innerHTML='👤'">
-</button>
+<button class="upill" id="uBtn" onclick="um()"><img src="duong-dan-anh.jpg" alt="Ảnh" onerror="this.style.display='none';this.parentNode.innerHTML='👤'"></button>
 </div><div class="um" id="um"></div></header>
 <main id="app" class="wrap"></main>
 <div class="ov" id="dOv" onclick="if(event.target===this)dr(0)"><aside class="drawer" id="drw"></aside></div>
 <div class="ov" id="mOv" onclick="if(event.target===this)modal(0)"><div class="modal" id="md"></div></div>
 <div class="toast" id="toast"></div>
 
-<!-- GATE MODAL -->
 <div id="ffGateModal">
   <div class="gate-box">
     <button class="gate-close" onclick="ffCloseGate()">✕</button>
-    <div class="gate-logo">
-      <img src="duong-dan-anh.jpg" alt="Ảnh" onerror="this.style.display='none';this.parentNode.innerHTML='🎯'">
-    </div>
+    <div class="gate-logo"><img src="duong-dan-anh.jpg" alt="Ảnh" onerror="this.style.display='none';this.parentNode.innerHTML='🎯'"></div>
     <div class="gate-title">FF TOOL</div>
     <div class="gate-sub">Nhập Key để mở khoá</div>
-    <input type="text" id="ffGateInput" class="gate-input" placeholder="FFLAT-XXXX-XXXX-XXXX" spellcheck="false" autocomplete="off" autocapitalize="characters">
+    <input type="text" id="ffGateInput" class="gate-input" placeholder="FFVIP-XXX-XXX-XXX" spellcheck="false" autocomplete="off" autocapitalize="characters">
     <button type="button" class="gate-btn" onclick="ffSubmitGate()">XÁC NHẬN</button>
     <div id="ffGateMsg" class="gate-msg"></div>
   </div>
 </div>
 
-<!-- TOOL OVERLAY -->
 <div id="ffToolOverlay">
   <div class="tool-wrap">
     <div class="tool-top">
-      <div class="tool-logo">
-        <img src="duong-dan-anh.jpg" alt="Ảnh" onerror="this.style.display='none';this.parentNode.innerHTML='🎯'">
-      </div>
+      <div class="tool-logo"><img src="duong-dan-anh.jpg" alt="Ảnh" onerror="this.style.display='none';this.parentNode.innerHTML='🎯'"></div>
       <div class="tool-brand">FF TOOL</div>
       <div class="tool-pill" id="ffPill">● ACTIVE</div>
       <button class="tool-close" onclick="ffCloseTool()">✕</button>
@@ -62,82 +52,29 @@
         <span id="ffWifi"><b>Online</b></span>
       </div>
     </div>
-    
-    <!-- 5 TABS -->
     <div class="ff-tabbar">
       <button class="ff-tab active" data-tab="aimthuong" onclick="ffSwitchTab('aimthuong')"><span class="em">🎯</span><span class="lbl">Thường</span></button>
       <button class="ff-tab" data-tab="aimvip" onclick="ffSwitchTab('aimvip')"><span class="em">👑</span><span class="lbl">VIP</span></button>
       <button class="ff-tab" data-tab="custom" onclick="ffSwitchTab('custom')"><span class="em">🛠</span><span class="lbl">Offset</span></button>
       <button class="ff-tab" data-tab="shader" onclick="ffSwitchTab('shader')"><span class="em">🎨</span><span class="lbl">Shader</span></button>
-      <button class="ff-tab" data-tab="bangoffset" onclick="ffSwitchTab('bangoffset')"><span class="em">📋</span><span class="lbl">Bảng</span></button>
     </div>
-    
-    <!-- PANEL: AIM THƯỜNG -->
-    <div class="ff-panel active" id="ffPanelAimthuong">
-      <div style="font-size:11px;font-weight:800;color:#a78bfa;margin-bottom:8px">AIM THƯỜNG (CACHE)</div>
-      <div class="aim-grid" id="ffGridThuong"></div>
-      <div class="res-zone" id="resThuong"></div>
-    </div>
-    
-    <!-- PANEL: AIM VIP -->
-    <div class="ff-panel" id="ffPanelAimvip">
-      <div style="font-size:11px;font-weight:800;color:#fbbf24;margin-bottom:8px">AIM VIP AVATAR (ASSET)</div>
-      <div class="aim-grid" id="ffGridVip"></div>
-      <div class="res-zone" id="resVip"></div>
-    </div>
-    
-    <!-- PANEL: CUSTOM -->
-    <div class="ff-panel" id="ffPanelCustom">
-      <div class="tool-card">
-        <textarea class="custom-ta" id="ffCustomTa" placeholder="Dán hex offset..."></textarea>
-        <div style="display:flex;gap:6px;margin-top:8px">
-          <button class="btn-patch" style="margin-top:0;flex:1;padding:9px" onclick="ffParseDump()">🔍 Parse</button>
-          <button class="btn-patch" style="margin-top:0;background:rgba(239,68,68,.15);color:#f87171;box-shadow:none;padding:9px;flex:0 0 80px" onclick="ffClearCustom()">🗑 Xoá</button>
-        </div>
-        <div id="ffCustomList" style="max-height:140px;overflow-y:auto;margin-top:8px;padding:6px;background:rgba(0,0,0,.3);border-radius:8px;font-size:10.5px;font-family:ui-monospace,monospace"></div>
-      </div>
-    </div>
-    
-    <!-- PANEL: SHADER -->
-    <div class="ff-panel" id="ffPanelShader">
-      <div class="shader-box">
-        <div class="shader-ico">🎨</div>
-        <div class="shader-title">SHADER</div>
-        <div class="cd-row">
-          <div class="cd-item"><div class="cd-num" id="ffCdDay">07</div><div class="cd-lbl">Ngày</div></div>
-          <div class="cd-item"><div class="cd-num" id="ffCdHour">00</div><div class="cd-lbl">Giờ</div></div>
-          <div class="cd-item"><div class="cd-num" id="ffCdMin">00</div><div class="cd-lbl">Phút</div></div>
-          <div class="cd-item"><div class="cd-num" id="ffCdSec">00</div><div class="cd-lbl">Giây</div></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- PANEL: BẢNG OFFSET -->
-    <div class="ff-panel" id="ffPanelBangoffset">
-      <div class="tbl-scroll">
-        <table class="off-tbl" id="offTbl">
-          <thead><tr><th>Func Name</th><th>Offset Data</th></tr></thead>
-          <tbody id="offTblBody"></tbody>
-        </table>
-      </div>
-    </div>
-
-    <div class="loading-ov" id="ffLoading">
-      <div class="proc-box">
-        <div class="proc-title">Đang xử lý</div>
-        <div class="proc-desc">Vui lòng chờ...</div>
-        <div class="proc-bar"><div class="proc-fill" id="ffProcFill"></div></div>
-        <div class="proc-pct"><span id="ffProcPct">0</span>%</div>
-      </div>
-    </div>
+    <div class="ff-panel active" id="ffPanelAimthuong"><div style="font-size:11px;font-weight:800;color:#a78bfa;margin-bottom:8px">AIM THƯỜNG (CACHE)</div><div class="aim-grid" id="ffGridThuong"></div><div class="res-zone" id="resThuong"></div></div>
+    <div class="ff-panel" id="ffPanelAimvip"><div style="font-size:11px;font-weight:800;color:#fbbf24;margin-bottom:8px">AIM VIP AVATAR (ASSET)</div><div class="aim-grid" id="ffGridVip"></div><div class="res-zone" id="resVip"></div></div>
+    <div class="ff-panel" id="ffPanelCustom"><div class="tool-card"><textarea class="custom-ta" id="ffCustomTa" placeholder="Dán hex offset..."></textarea><div style="display:flex;gap:6px;margin-top:8px"><button style="flex:1;padding:9px;border-radius:8px;background:rgba(167,139,250,.15);color:#c4b5fd;font-weight:900;font-size:12px" onclick="ffParseDump()">🔍 Parse</button><button style="flex:0 0 80px;padding:9px;border-radius:8px;background:rgba(239,68,68,.15);color:#f87171;font-weight:900;font-size:12px" onclick="ffClearCustom()">🗑 Xoá</button></div><div id="ffCustomList" style="max-height:140px;overflow-y:auto;margin-top:8px;padding:6px;background:rgba(0,0,0,.3);border-radius:8px;font-size:10.5px;font-family:ui-monospace,monospace"></div></div></div>
+    <div class="ff-panel" id="ffPanelShader"><div class="shader-box"><div class="shader-ico">🎨</div><div class="shader-title">SHADER</div><div class="cd-row"><div class="cd-item"><div class="cd-num" id="ffCdDay">07</div><div class="cd-lbl">Ngày</div></div><div class="cd-item"><div class="cd-num" id="ffCdHour">00</div><div class="cd-lbl">Giờ</div></div><div class="cd-item"><div class="cd-num" id="ffCdMin">00</div><div class="cd-lbl">Phút</div></div><div class="cd-item"><div class="cd-num" id="ffCdSec">00</div><div class="cd-lbl">Giây</div></div></div></div></div>
+    <div class="loading-ov" id="ffLoading"><div class="proc-box"><div class="proc-title">Đang xử lý</div><div class="proc-desc">Vui lòng chờ...</div><div class="proc-bar"><div class="proc-fill" id="ffProcFill"></div></div><div class="proc-pct"><span id="ffProcPct">0</span>%</div></div></div>
     <div class="toast-t" id="ffToast"></div>
     <input type="file" id="ffFileInput" style="display:none">
   </div>
 </div>
 
-<!-- NỀN NHỆN -->
+
+<!-- ══════════ TELEGRAM MODULE ══════════ -->
 
 
+<!-- ══════════ MAIN APP ══════════ -->
+
+<!-- ══════════ MAKE CẤU HÌNH CORE (20 payloads + Telegram) ══════════ -->
 
 
 <script src="Local.js" defer=""></script></body></html>
