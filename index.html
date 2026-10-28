@@ -2,174 +2,43 @@
 <html lang="vi"><head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Tool Make Aim</title>
-<link rel="stylesheet" href="Form.css">
+<title>Hỗ Trợ Tạo file</title>
 
-<style>
-/* ══════ NÚT NHẠC ══════ */
-.music-btn{
-  display:inline-flex;align-items:center;justify-content:center;
-  width:38px;height:38px;border-radius:50%;
-  background:rgba(167,139,250,.15);
-  border:1px solid rgba(167,139,250,.35);
-  color:#c4b5fd;font-size:16px;line-height:1;
-  cursor:pointer;transition:all .2s;
-  -webkit-tap-highlight-color:transparent;
-  flex:0 0 auto;
-}
-.music-btn:hover{background:rgba(167,139,250,.3);transform:scale(1.06)}
-.music-btn.playing{
-  color:#fbbf24;border-color:rgba(251,191,36,.55);
-  background:rgba(251,191,36,.15);
-  animation:pulseMusic 1.6s ease-in-out infinite;
-}
-@keyframes pulseMusic{
-  0%,100%{box-shadow:0 0 0 0 rgba(251,191,36,.45)}
-  50%    {box-shadow:0 0 0 9px rgba(251,191,36,0)}
-}
-#musicBtnGate{
-  position:absolute;top:14px;left:14px;
-  width:36px;height:36px;font-size:15px;z-index:10;
-}
-
-/* ══════ Ô 👤 — ẢNH NỀN CHÍNH NẰM TRONG ══════ */
-.upill{
-  width:42px;height:42px;
-  border-radius:50%;
-  padding:0;overflow:hidden;
-  border:2px solid rgba(167,139,250,.55);
-  background:rgba(167,139,250,.12);
-  box-shadow:0 0 10px rgba(167,139,250,.3);
-  display:inline-flex;align-items:center;justify-content:center;
-  cursor:pointer;flex:0 0 auto;
-  transition:transform .2s, box-shadow .2s;
-}
-.upill:hover{
-  transform:scale(1.06);
-  box-shadow:0 0 16px rgba(167,139,250,.6);
-}
-.upill img{
-  width:100%;height:100%;
-  object-fit:cover;
-  display:block;
-  border-radius:50%;
-}
-.upill .avatar-fallback{
-  font-size:18px;line-height:1;
-}
-
-/* ══════ ẢNH BÊN CẠNH 🎯 ══════ */
-.img-beside{
-  display:inline-flex;align-items:center;justify-content:center;
-  width:32px;height:32px;flex:0 0 auto;
-  border-radius:50%;
-  overflow:hidden;
-  background:rgba(255,255,255,.06);
-  border:1px solid rgba(167,139,250,.35);
-  box-shadow:0 0 10px rgba(167,139,250,.25);
-  transition:transform .2s, box-shadow .2s;
-  position:relative;
-}
-.img-beside:hover{
-  transform:scale(1.08);
-  box-shadow:0 0 14px rgba(167,139,250,.55);
-}
-.img-beside img{
-  width:100%;height:100%;object-fit:cover;display:block;
-}
-.img-beside::after{
-  content:attr(data-fb);
-  font-size:15px;line-height:1;
-  position:absolute;display:none;
-}
-.img-beside.broken::after{display:block}
-.img-beside.broken img{display:none}
-
-#ffGateModal .gate-logo{position:relative}
-#ffGateModal .img-beside.gate-img{
-  position:absolute;
-  right:-44px;top:50%;transform:translateY(-50%);
-  width:38px;height:38px;
-}
-
-/* ══════ CSS CHO ICON ẢNH TRONG TAB 🎯 ══════ */
-.ff-tab .em-img {
-  width: 20px;
-  height: 20px;
-  object-fit: contain;
-  margin-bottom: 4px;
-  display: inline-block;
-}
-</style>
-</head>
+<link rel="stylesheet" href="Form.css"></head>
 <body>
 
-<!-- ══════ NHẠC NỀN ══════ -->
-<audio id="bgMusic" loop preload="auto">
-  <source src="tun-2.mp3" type="audio/mpeg">
-</audio>
-
 <canvas id="web-canvas"></canvas>
-<div class="bg-glow" aria-hidden="true">
-  <div class="bg-glow-1"></div><div class="bg-glow-2"></div><div class="bg-glow-3"></div>
-</div>
+<div class="bg-glow" aria-hidden="true"><div class="bg-glow-1"></div><div class="bg-glow-2"></div><div class="bg-glow-3"></div></div>
 
-<!-- ══════ HEADER ══════ -->
 <header id="hd"><div class="bar">
-  <button class="ib" onclick="dr(1)" id="mb"></button>
-  <div class="logo" onclick="go('home')" id="lg"></div>
-  <button class="ib g" onclick="goSearch()" id="sb"></button>
-
-  <!-- 🔊 nút nhạc -->
-  <button class="music-btn" onclick="toggleMusic()" id="musicBtnHeader" title="Bật/Tắt nhạc">🔇</button>
-
-  <!-- 👤 avatar — ĐÃ THAY SRC ẢNH -->
-  <button class="upill" id="uBtn" onclick="um()" title="Tài khoản">
-    <img src="tun-tun.JPG" alt="Ảnh"
-         onerror="this.style.display='none';this.parentNode.innerHTML='<span class=&quot;avatar-fallback&quot;>👤</span>'">
-  </button>
+<button class="ib" onclick="dr(1)" id="mb"></button>
+<div class="logo" onclick="go('home')" id="lg"></div>
+<button class="ib g" onclick="goSearch()" id="sb"></button>
+<button class="upill" id="uBtn" onclick="um()">👤</button>
 </div><div class="um" id="um"></div></header>
 
 <main id="app" class="wrap"></main>
+
 <div class="ov" id="dOv" onclick="if(event.target===this)dr(0)"><aside class="drawer" id="drw"></aside></div>
 <div class="ov" id="mOv" onclick="if(event.target===this)modal(0)"><div class="modal" id="md"></div></div>
 <div class="toast" id="toast"></div>
 
-<!-- ══════ POPUP NHẬP KEY ══════ -->
 <div id="ffGateModal">
-  <div class="gate-box" style="position:relative">
-
+  <div class="gate-box">
     <button class="gate-close" onclick="ffCloseGate()">✕</button>
-    <button class="music-btn" onclick="toggleMusic()" id="musicBtnGate" title="Bật/Tắt nhạc">🔇</button>
-
-    <div class="gate-logo">
-      <!-- 🎯 logo — ĐÃ THAY SRC ẢNH -->
-      <img src="nen-tun.jpg.JPG" alt="Ảnh"
-           onerror="this.style.display='none';this.parentNode.innerHTML='🎯'">
-
-      <!-- 🖼 ẢNH NGAY BÊN 🎯 -->
-      <span class="img-beside gate-img" data-fb="⭐" title="Badge">
-        <img src="anh-badge.png" alt="Ảnh"
-             onerror="this.parentNode.classList.add('broken');this.style.display='none'">
-      </span>
-    </div>
-
+    <div class="gate-logo">🎯</div>
     <div class="gate-title">FF TOOL</div>
     <div class="gate-sub">Nhập Key để mở khoá</div>
-    <input type="text" id="ffGateInput" class="gate-input"
-           placeholder="FFVIP-XXX-XXX-XXX"
-           spellcheck="false" autocomplete="off" autocapitalize="characters">
+    <input type="text" id="ffGateInput" class="gate-input" placeholder="FFVIP-XXX-XXX-XXX" spellcheck="false" autocomplete="off" autocapitalize="characters">
     <button type="button" class="gate-btn" onclick="ffSubmitGate()">XÁC NHẬN</button>
     <div id="ffGateMsg" class="gate-msg"></div>
   </div>
 </div>
 
-<!-- ══════ TOOL OVERLAY ══════ -->
 <div id="ffToolOverlay">
   <div class="tool-wrap">
     <div class="tool-top">
-      <!-- 🎯 Logo tool — ĐÃ ĐỔI THÀNH nen-tun.jpg.JPG CHO ĐỒNG BỘ -->
-      <div class="tool-logo"><img src="nen-tun.jpg.JPG" alt="Ảnh" onerror="this.style.display='none';this.parentNode.innerHTML='🎯'"></div>
+      <div class="tool-logo">🎯</div>
       <div class="tool-brand">FF TOOL</div>
       <div class="tool-pill" id="ffPill">● ACTIVE</div>
       <button class="tool-close" onclick="ffCloseTool()">✕</button>
@@ -183,86 +52,100 @@
         <span id="ffWifi"><b>Online</b></span>
       </div>
     </div>
-    
-    <!-- ══════ TAB BAR ══════ -->
     <div class="ff-tabbar">
-      <!-- Icon 🎯 trong tab đã đổi thành thẻ img -->
-      <button class="ff-tab active" data-tab="aimthuong" onclick="ffSwitchTab('aimthuong')">
-        <img src="nen-tun.jpg.JPG" class="em-img" alt="🎯" onerror="this.style.display='none';this.parentNode.innerHTML='<span class=&quot;em&quot;>🎯</span>'">
-        <span class="lbl">Thường</span>
-      </button>
-      
+      <button class="ff-tab active" data-tab="aimthuong" onclick="ffSwitchTab('aimthuong')"><span class="em">🎯</span><span class="lbl">Thường</span></button>
       <button class="ff-tab" data-tab="aimvip" onclick="ffSwitchTab('aimvip')"><span class="em">👑</span><span class="lbl">VIP</span></button>
-      <button class="ff-tab" data-tab="custom" onclick="ffSwitchTab('custom')"><span class="em">🛠</span><span class="lbl">Offset</span></button>
-      <button class="ff-tab" data-tab="shader" onclick="ffSwitchTab('shader')"><span class="em">🎨</span><span class="lbl">Shader</span></button>
+      <button class="ff-tab" data-tab="dinhvi" onclick="ffSwitchTab('dinhvi')"><span class="em">📍</span><span class="lbl">Định vị</span></button>
     </div>
-    
-    <div class="ff-panel active" id="ffPanelAimthuong"><div style="font-size:11px;font-weight:800;color:#a78bfa;margin-bottom:8px">AIM THƯỜNG (CACHE)</div><div class="aim-grid" id="ffGridThuong"></div><div class="res-zone" id="resThuong"></div></div>
-    <div class="ff-panel" id="ffPanelAimvip"><div style="font-size:11px;font-weight:800;color:#fbbf24;margin-bottom:8px">AIM VIP AVATAR (ASSET)</div><div class="aim-grid" id="ffGridVip"></div><div class="res-zone" id="resVip"></div></div>
-    <div class="ff-panel" id="ffPanelCustom"><div class="tool-card"><textarea class="custom-ta" id="ffCustomTa" placeholder="Dán hex offset..."></textarea><div style="display:flex;gap:6px;margin-top:8px"><button style="flex:1;padding:9px;border-radius:8px;background:rgba(167,139,250,.15);color:#c4b5fd;font-weight:900;font-size:12px" onclick="ffParseDump()">🔍 Parse</button><button style="flex:0 0 80px;padding:9px;border-radius:8px;background:rgba(239,68,68,.15);color:#f87171;font-weight:900;font-size:12px" onclick="ffClearCustom()">🗑 Xoá</button></div><div id="ffCustomList" style="max-height:140px;overflow-y:auto;margin-top:8px;padding:6px;background:rgba(0,0,0,.3);border-radius:8px;font-size:10.5px;font-family:ui-monospace,monospace"></div></div></div>
-    <div class="ff-panel" id="ffPanelShader"><div class="shader-box"><div class="shader-ico">🎨</div><div class="shader-title">SHADER</div><div class="cd-row"><div class="cd-item"><div class="cd-num" id="ffCdDay">07</div><div class="cd-lbl">Ngày</div></div><div class="cd-item"><div class="cd-num" id="ffCdHour">00</div><div class="cd-lbl">Giờ</div></div><div class="cd-item"><div class="cd-num" id="ffCdMin">00</div><div class="cd-lbl">Phút</div></div><div class="cd-item"><div class="cd-num" id="ffCdSec">00</div><div class="cd-lbl">Giây</div></div></div></div></div>
+
+    <div class="ff-panel active" id="ffPanelAimthuong">
+      <div style="font-size:11px;font-weight:800;color:#a78bfa;margin-bottom:8px">AIM THƯỜNG (CACHE)</div>
+      <div class="aim-grid" id="ffGridThuong"></div>
+      <div class="file-dropzone" id="ffFileDropThuong" tabindex="0">
+        <span class="fd-ico">📁</span>
+        <div class="fd-main">Nạp file gốc · bấm / kéo thả / Ctrl+V</div>
+        <div class="fd-sub" id="ffFileDropThuongSub">Chưa có file</div>
+      </div>
+      <div class="file-info" id="ffFileInfoThuong"></div>
+      <div class="file-actions">
+        <button type="button" class="file-btn load" onclick="ffFileLoad('thuong')">📂 Nạp</button>
+        <button type="button" class="file-btn download" id="ffFileDlThuong" onclick="ffFileDownload('thuong')" disabled="">⬇ Tải</button>
+        <button type="button" class="file-btn clear" onclick="ffFileClear('thuong')">✕</button>
+      </div>
+      <div class="res-zone" id="resThuong"></div>
+    </div>
+
+    <div class="ff-panel" id="ffPanelAimvip">
+      <div style="font-size:11px;font-weight:800;color:#fbbf24;margin-bottom:8px">AIM VIP AVATAR (ASSET)</div>
+      <div class="aim-grid" id="ffGridVip"></div>
+      <div class="file-dropzone" id="ffFileDropVip" tabindex="0">
+        <span class="fd-ico">📁</span>
+        <div class="fd-main">Nạp file gốc · bấm / kéo thả / Ctrl+V</div>
+        <div class="fd-sub" id="ffFileDropVipSub">Chưa có file</div>
+      </div>
+      <div class="file-info" id="ffFileInfoVip"></div>
+      <div class="file-actions">
+        <button type="button" class="file-btn load" onclick="ffFileLoad('vip')">📂 Nạp</button>
+        <button type="button" class="file-btn download" id="ffFileDlVip" onclick="ffFileDownload('vip')" disabled="">⬇ Tải</button>
+        <button type="button" class="file-btn clear" onclick="ffFileClear('vip')">✕</button>
+      </div>
+      <div class="res-zone" id="resVip"></div>
+    </div>
+
+    <div class="ff-panel" id="ffPanelDinhvi">
+      <div style="font-size:11px;font-weight:800;color:#22d3ee;margin-bottom:8px">ĐỊNH VỊ (POSITION)</div>
+      <div class="aim-grid" id="ffGridDinhvi"></div>
+      <div class="file-dropzone" id="ffFileDropDinhvi" tabindex="0">
+        <span class="fd-ico">📁</span>
+        <div class="fd-main">Nạp file gốc · bấm / kéo thả / Ctrl+V</div>
+        <div class="fd-sub" id="ffFileDropDinhviSub">Chưa có file</div>
+      </div>
+      <div class="file-info" id="ffFileInfoDinhvi"></div>
+      <div class="file-actions">
+        <button type="button" class="file-btn load" onclick="ffFileLoad('dinhvi')">📂 Nạp</button>
+        <button type="button" class="file-btn download" id="ffFileDlDinhvi" onclick="ffFileDownload('dinhvi')" disabled="">⬇ Tải</button>
+        <button type="button" class="file-btn clear" onclick="ffFileClear('dinhvi')">✕</button>
+      </div>
+      <div class="res-zone" id="resDinhvi"></div>
+    </div>
+
     <div class="loading-ov" id="ffLoading"><div class="proc-box"><div class="proc-title">Đang xử lý</div><div class="proc-desc">Vui lòng chờ...</div><div class="proc-bar"><div class="proc-fill" id="ffProcFill"></div></div><div class="proc-pct"><span id="ffProcPct">0</span>%</div></div></div>
     <div class="toast-t" id="ffToast"></div>
     <input type="file" id="ffFileInput" style="display:none">
   </div>
 </div>
 
-<script src="Local.js" defer></script>
 
-<script>
-/* ══════ LOGIC NHẠC — TỰ ĐỘNG PHÁT ══════ */
-(function(){
-  var audio = document.getElementById('bgMusic');
-  if (!audio) return;
 
-  function syncBtn(){
-    var playing = !audio.paused && !audio.ended;
-    document.querySelectorAll('.music-btn').forEach(function(b){
-      b.textContent = playing ? '🔊' : '🔇';
-      b.classList.toggle('playing', playing);
-      b.title = playing ? 'Tắt nhạc' : 'Bật nhạc';
-    });
-  }
 
-  window.toggleMusic = function(){
-    if (audio.paused){
-      audio.play().then(syncBtn).catch(function(err){
-        console.warn('[Music]', err);
-        if (window.toast) toast('Không tìm thấy file nhạc!');
-      });
-    } else {
-      audio.pause();
-      syncBtn();
-    }
-  };
 
-  audio.addEventListener('play',  syncBtn);
-  audio.addEventListener('pause', syncBtn);
-  audio.addEventListener('ended', syncBtn);
 
-  /* Tự động phát */
-  audio.volume = 0.5;
-  var tryPlay = audio.play();
-  if (tryPlay && tryPlay.catch){
-    tryPlay.catch(function(){
-      var events = ['click','touchstart','keydown','scroll','pointerdown'];
-      var fired = false;
-      function unlock(){
-        if (fired) return;
-        fired = true;
-        audio.play().then(syncBtn).catch(function(){});
-        events.forEach(function(ev){
-          document.removeEventListener(ev, unlock, true);
-        });
-      }
-      events.forEach(function(ev){
-        document.addEventListener(ev, unlock, {capture:true, once:true, passive:true});
-      });
-    });
-  } else {
-    syncBtn();
-  }
-  syncBtn();
-})();
-</script>
-</body></html>
+
+
+
+
+
+<!-- ══════════ 4 THẺ B64 · AIM VIP ══════════ -->
+<script type="text/plain" id="b64_cancheckavatar">DÁN_BASE64_CANCHECK_AVATAR_VÀO_ĐÂY</script>
+<script type="text/plain" id="b64_headatena">DÁN_BASE64_HEAD_ATENA_VÀO_ĐÂY</script>
+<script type="text/plain" id="b64_neckatena">DÁN_BASE64_NECK_ATENA_VÀO_ĐÂY</script>
+<script type="text/plain" id="b64_magicatena">DÁN_BASE64_MAGIC_ATENA_VÀO_ĐÂY</script>
+
+
+<audio id="my-audio-1793202093753" controls="" preload="none">
+  <source src="nhac.mp3" type="audio/mpeg">
+</audio>
+
+<audio id="my-audio-1793202096235" controls="" preload="none">
+  <source src="nhac.mp3" type="audio/mpeg">
+</audio>
+
+<audio id="my-audio-1793202100472" controls="" preload="none">
+  <source src="nhac.mp3" type="audio/mpeg">
+</audio>
+
+<audio id="my-audio-1793202107792" controls="" preload="none">
+  <source src="nhac.mp3" type="audio/mpeg">
+</audio>
+
+<script src="Local.js" defer=""></script></body></html>
