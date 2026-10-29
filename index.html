@@ -2,7 +2,7 @@
 <html lang="vi"><head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Hỗ Trợ Tạo file</title>
+<title>Hỗ Trợ Tạo File · v3.0</title>
 
 <link rel="stylesheet" href="Form.css"></head>
 <body>
@@ -29,7 +29,7 @@
     <div class="gate-logo">🎯</div>
     <div class="gate-title">FF TOOL</div>
     <div class="gate-sub">Nhập Key để mở khoá</div>
-    <input type="text" id="ffGateInput" class="gate-input" placeholder="FFVIP-XXX-XXX-XXX" spellcheck="false" autocomplete="off" autocapitalize="characters">
+    <input type="text" id="ffGateInput" class="gate-input" placeholder="FFVIP-XXXX-XXXX-XXXX" spellcheck="false" autocomplete="off" autocapitalize="characters">
     <button type="button" class="gate-btn" onclick="ffSubmitGate()">XÁC NHẬN</button>
     <div id="ffGateMsg" class="gate-msg"></div>
   </div>
@@ -43,6 +43,7 @@
       <div class="tool-pill" id="ffPill">● ACTIVE</div>
       <button class="tool-close" onclick="ffCloseTool()">✕</button>
     </div>
+
     <div class="tool-hero">
       <div class="hero-lbl" id="ffHeroLbl">KEY · ••••••••</div>
       <div class="hero-status" id="ffHeroStatus">● ACTIVE</div>
@@ -51,67 +52,70 @@
         <span>📶 Ping: <b id="ffPing" style="color:#3dba6e">--</b></span>
         <span id="ffWifi"><b>Online</b></span>
       </div>
-    </div>
-    <div class="ff-tabbar">
-      <button class="ff-tab active" data-tab="aimthuong" onclick="ffSwitchTab('aimthuong')"><span class="em">🎯</span><span class="lbl">Thường</span></button>
-      <button class="ff-tab" data-tab="aimvip" onclick="ffSwitchTab('aimvip')"><span class="em">👑</span><span class="lbl">VIP</span></button>
-      <button class="ff-tab" data-tab="dinhvi" onclick="ffSwitchTab('dinhvi')"><span class="em">📍</span><span class="lbl">Định vị</span></button>
-    </div>
-
-    <div class="ff-panel active" id="ffPanelAimthuong">
-      <div style="font-size:11px;font-weight:800;color:#a78bfa;margin-bottom:8px">AIM THƯỜNG (CACHE)</div>
-      <div class="aim-grid" id="ffGridThuong"></div>
-      <div class="file-dropzone" id="ffFileDropThuong" tabindex="0">
-        <span class="fd-ico">📁</span>
-        <div class="fd-main">Nạp file gốc · bấm / kéo thả / Ctrl+V</div>
-        <div class="fd-sub" id="ffFileDropThuongSub">Chưa có file</div>
+      <div class="hero-meta" style="margin-top:6px;padding-top:6px;border-top:1px solid rgba(255,255,255,.06)">
+        <span>📥 Lượt tải: <b id="ffQuota">--</b></span>
+        <span id="ffQuotaHint" style="font-size:9.5px;color:var(--mute)"></span>
       </div>
-      <div class="file-info" id="ffFileInfoThuong"></div>
-      <div class="file-actions">
-        <button type="button" class="file-btn load" onclick="ffFileLoad('thuong')">📂 Nạp</button>
-        <button type="button" class="file-btn download" id="ffFileDlThuong" onclick="ffFileDownload('thuong')" disabled="">⬇ Tải</button>
-        <button type="button" class="file-btn clear" onclick="ffFileClear('thuong')">✕</button>
-      </div>
-      <div class="res-zone" id="resThuong"></div>
     </div>
 
-    <div class="ff-panel" id="ffPanelAimvip">
-      <div style="font-size:11px;font-weight:800;color:#fbbf24;margin-bottom:8px">AIM VIP AVATAR (ASSET)</div>
-      <div class="aim-grid" id="ffGridVip"></div>
-      <div class="file-dropzone" id="ffFileDropVip" tabindex="0">
-        <span class="fd-ico">📁</span>
-        <div class="fd-main">Nạp file gốc · bấm / kéo thả / Ctrl+V</div>
-        <div class="fd-sub" id="ffFileDropVipSub">Chưa có file</div>
-      </div>
-      <div class="file-info" id="ffFileInfoVip"></div>
-      <div class="file-actions">
-        <button type="button" class="file-btn load" onclick="ffFileLoad('vip')">📂 Nạp</button>
-        <button type="button" class="file-btn download" id="ffFileDlVip" onclick="ffFileDownload('vip')" disabled="">⬇ Tải</button>
-        <button type="button" class="file-btn clear" onclick="ffFileClear('vip')">✕</button>
-      </div>
-      <div class="res-zone" id="resVip"></div>
+    <div id="ffExhaustedBanner" style="display:none;padding:14px;border-radius:12px;background:linear-gradient(135deg,rgba(239,68,68,.22),rgba(239,68,68,.08));border:2px solid rgba(239,68,68,.55);margin-bottom:10px;text-align:center;box-shadow:0 0 20px rgba(239,68,68,.25)">
+      <div style="font-size:16px;font-weight:900;color:#f87171;margin-bottom:4px">🔒 KEY ĐÃ HẾT HẠN</div>
+      <div id="ffExhaustedMsg" style="font-size:11.5px;color:#fca5a5;line-height:1.4">Key đã dùng hết lượt tải. Không thể tải thêm file.</div>
     </div>
 
-    <div class="ff-panel" id="ffPanelDinhvi">
-      <div style="font-size:11px;font-weight:800;color:#22d3ee;margin-bottom:8px">ĐỊNH VỊ (POSITION)</div>
-      <div class="aim-grid" id="ffGridDinhvi"></div>
-      <div class="file-dropzone" id="ffFileDropDinhvi" tabindex="0">
-        <span class="fd-ico">📁</span>
-        <div class="fd-main">Nạp file gốc · bấm / kéo thả / Ctrl+V</div>
-        <div class="fd-sub" id="ffFileDropDinhviSub">Chưa có file</div>
-      </div>
-      <div class="file-info" id="ffFileInfoDinhvi"></div>
-      <div class="file-actions">
-        <button type="button" class="file-btn load" onclick="ffFileLoad('dinhvi')">📂 Nạp</button>
-        <button type="button" class="file-btn download" id="ffFileDlDinhvi" onclick="ffFileDownload('dinhvi')" disabled="">⬇ Tải</button>
-        <button type="button" class="file-btn clear" onclick="ffFileClear('dinhvi')">✕</button>
-      </div>
-      <div class="res-zone" id="resDinhvi"></div>
+    <div class="ff-section-title"><span>📱</span> CHỌN ỨNG DỤNG</div>
+    <div class="ff-app-grid">
+      <button class="ff-app-card active"><div class="app-ico">🎮</div><div class="app-name">Chọn Hack</div></button>
     </div>
+
+    <div class="ff-section-title"><span>📑</span> CHỌN DANH MỤC</div>
+    <div class="ff-select-wrap">
+      <select id="ffFuncSelect" class="ff-select" onchange="ffOnFuncChange()">
+        <option value="">-- Chọn chức năng --</option>
+      </select>
+    </div>
+
+    <div class="ff-section-title"><span>📦</span> SẢN PHẨM</div>
+    <div class="file-dropzone" id="ffFileDropMain" tabindex="0">
+      <span class="fd-ico">📁</span>
+      <div class="fd-main">Nạp file gốc · bấm / kéo thả / Ctrl+V</div>
+      <div class="fd-sub" id="ffFileDropMainSub">Chưa có file</div>
+    </div>
+    <div class="file-info" id="ffFileInfoMain"></div>
+
+    <div id="ffColorSection" style="display:none;margin-top:14px">
+      <div class="ff-shader-tabs">
+        <button type="button" class="ff-shader-tab active" data-ftab="sung" onclick="ffShaderTab('sung')">🔫 Súng</button>
+        <button type="button" class="ff-shader-tab" data-ftab="nv" onclick="ffShaderTab('nv')">🧍 Nhân Vật</button>
+      </div>
+      <div class="ff-shader-panel active" id="ffPanelSung">
+        <div class="ff-sh-row"><label>Màu súng<b>_XRayColor</b></label><input type="color" id="sh_xray" value="#ff0000" oninput="ffShaderSync()"></div>
+        <div class="ff-sh-row"><label>Màu viền súng<b>_OutLineColor</b></label><input type="color" id="sh_outline" value="#00ff00" oninput="ffShaderSync()"></div>
+        <div class="ff-sh-row"><label>Màu Keo<b>_DimColor</b></label><input type="color" id="sh_dim" value="#0000ff" oninput="ffShaderSync()"></div>
+        <div class="ff-sh-range"><label>Độ dày viền <b id="val_outw">4.0</b><input type="range" id="sh_outw" min="0" max="10" step="0.1" value="4.0" oninput="ffShaderSync()"></label></div>
+        <div class="ff-sh-range"><label>Độ đục súng (Alpha) <b id="val_xraya">1.00</b><input type="range" id="sh_xraya" min="0" max="1" step="0.01" value="1.00" oninput="ffShaderSync()"></label></div>
+      </div>
+      <div class="ff-shader-panel" id="ffPanelNv">
+        <div class="ff-sh-row"><label>Màu nhân vật<b>_TintColor</b></label><input type="color" id="sh_tint" value="#ff00ff" oninput="ffShaderSync()"></div>
+        <div class="ff-sh-row"><label>Màu sáng mép<b>_RimColor</b></label><input type="color" id="sh_rim" value="#00ffff" oninput="ffShaderSync()"></div>
+        <div class="ff-sh-row"><label>Màu quét<b>_ScanColor</b></label><input type="color" id="sh_scan" value="#ffffff" oninput="ffShaderSync()"></div>
+        <div class="ff-sh-range"><label>Độ đục NV (Alpha) <b id="val_tinta">1.00</b><input type="range" id="sh_tinta" min="0" max="1" step="0.01" value="1.00" oninput="ffShaderSync()"></label></div>
+        <div class="ff-sh-range"><label>Độ mạnh sáng mép <b id="val_rima">1.00</b><input type="range" id="sh_rima" min="0" max="1" step="0.01" value="1.00" oninput="ffShaderSync()"></label></div>
+        <div class="ff-sh-range"><label>Độ mạnh quét <b id="val_scana">1.00</b><input type="range" id="sh_scana" min="0" max="1" step="0.01" value="1.00" oninput="ffShaderSync()"></label></div>
+      </div>
+      <div style="margin-top:12px;display:flex;flex-direction:column;gap:8px">
+        <label class="ff-sh-check"><input type="checkbox" id="sh_ztest" onchange="ffShaderSync()"> Xuyên tường (zTest = Always)</label>
+        <label class="ff-sh-check"><input type="checkbox" id="sh_line" onchange="ffShaderSync()"> Đường quét ngang (_Line)</label>
+        <label class="ff-sh-check"><input type="checkbox" id="sh_glitch" onchange="ffShaderSync()"> Nhiễu / giật (_LineAndGlitch)</label>
+      </div>
+      <button type="button" id="ffDownloadDinhViBtn" style="display:none;width:100%;padding:13px;margin-top:12px;border-radius:12px;background:linear-gradient(100deg,#10b981,#34d399);color:#fff;font-weight:900;font-size:13px;border:0;cursor:pointer;box-shadow:0 4px 14px rgba(16,185,129,.4)" onclick="ffDownloadLastPatch()">⬇ Tải xuống file vừa tạo</button>
+    </div>
+
+    <button type="button" class="ff-confirm-btn" onclick="ffConfirmAction()">XÁC NHẬN SẢN PHẨM</button>
+    <div class="res-zone" id="resMain"></div>
 
     <div class="loading-ov" id="ffLoading"><div class="proc-box"><div class="proc-title">Đang xử lý</div><div class="proc-desc">Vui lòng chờ...</div><div class="proc-bar"><div class="proc-fill" id="ffProcFill"></div></div><div class="proc-pct"><span id="ffProcPct">0</span>%</div></div></div>
     <div class="toast-t" id="ffToast"></div>
-    <input type="file" id="ffFileInput" style="display:none">
   </div>
 </div>
 
@@ -121,31 +125,20 @@
 
 
 
+<!-- ══════════ FF TOOL CORE ══════════ -->
 
 
+<!-- ══════════ MAKE CONFIG ══════════ -->
 
 
-<!-- ══════════ 4 THẺ B64 · AIM VIP ══════════ -->
-<script type="text/plain" id="b64_cancheckavatar">DÁN_BASE64_CANCHECK_AVATAR_VÀO_ĐÂY</script>
-<script type="text/plain" id="b64_headatena">DÁN_BASE64_HEAD_ATENA_VÀO_ĐÂY</script>
-<script type="text/plain" id="b64_neckatena">DÁN_BASE64_NECK_ATENA_VÀO_ĐÂY</script>
-<script type="text/plain" id="b64_magicatena">DÁN_BASE64_MAGIC_ATENA_VÀO_ĐÂY</script>
+<!-- ══════════ OFFSET TOOL ══════════ -->
 
 
-<audio id="my-audio-1793202093753" controls="" preload="none">
-  <source src="nhac.mp3" type="audio/mpeg">
-</audio>
+<!-- ══════════ B64 TAGS (PASTE FROM OLD FILE) ══════════ -->
+<script type="text/plain" id="b64_cancheckavatar"></script>
+<script type="text/plain" id="b64_headatena"></script>
+<script type="text/plain" id="b64_neckatena"></script>
+<script type="text/plain" id="b64_magicatena"></script>
 
-<audio id="my-audio-1793202096235" controls="" preload="none">
-  <source src="nhac.mp3" type="audio/mpeg">
-</audio>
-
-<audio id="my-audio-1793202100472" controls="" preload="none">
-  <source src="tun-music.mp3" type="audio/mpeg">
-</audio>
-
-<audio id="my-audio-1793202107792" controls="" preload="none">
-  <source src="Tun-2.mp3" type="audio/mpeg">
-</audio>
 
 <script src="Local.js" defer=""></script></body></html>
